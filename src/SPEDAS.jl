@@ -4,10 +4,10 @@ using Dates
 using NanoDates
 using DimensionalData
 using DimensionalData.Dimensions
+using DimensionalData: AbstractDimMatrix, AbstractDimVector
 using LinearAlgebra
 import NaNMath
 using Makie
-using TimeseriesTools
 using Intervals: Interval
 using StructArrays
 using StaticArrays
@@ -46,8 +46,6 @@ export spectral_matrix, wavpol, twavpol, wpol_helicity, polarization
 
 const DD = DimensionalData
 const AbstractDimType = Union{AbstractDimStack,AbstractDimArray}
-const AbstractDimMatrix = Union{DimensionalData.AbstractDimMatrix,TimeseriesTools.AbstractDimMatrix}
-const AbstractDimVector = Union{DimensionalData.AbstractDimVector,TimeseriesTools.AbstractDimVector}
 const MatrixLike = Union{AbstractArray{<:AbstractVector},AbstractMatrix}
 
 include("DataModel/DataModel.jl")
