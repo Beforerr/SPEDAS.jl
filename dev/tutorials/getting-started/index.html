@@ -7,27 +7,27 @@ da = get_data(&quot;cda/OMNI_HRO_1MIN/Pressure&quot;, &quot;2016-6-2&quot;, &quo
   Time Range: 2016-06-02T00:00:00 to 2016-06-04T23:59:00
   Units: nPa
   Size: (4320, 1)
-  Memory Usage: 85.350 KiB
-  Metadata (Dict{String, Any}):
-    FILLVAL: Any[99.98999786376953]
+  Memory Usage: 85.365 KiB
+  Metadata:
     FIELDNAM: Flow pressure
-    VALIDMAX: Any[100.0]
-    SCALEMAX: Any[100.0]
-    CATDESC: Flow pressure (nPa)
     VALIDMIN: Any[0.0]
-    DISPLAY_TYPE: time_series
-    UNITS: nPa
-    VAR_NOTES: Derived parameters are obtained from the following equations. Flow pressure = (2*10**-6)*Np*Vp**2 nPa (Np in cm**-3, Vp in km/s, subscript p for proton) 
-    DEPEND_0: Epoch
-    BIN_LOCATION: 0.0
-    FORMAT: F5.2
-    VAR_TYPE: data
+    VALIDMAX: Any[100.0]
     SCALEMIN: Any[0.0]
+    SCALEMAX: Any[100.0]
+    UNITS: nPa
+    FORMAT: F5.2
+    FILLVAL: Any[99.98999786376953]
+    VAR_TYPE: data
+    CATDESC: Flow pressure (nPa)
+    VAR_NOTES: Derived parameters are obtained from the following equations. Flow pressure = (2*10**-6)*Np*Vp**2 nPa (Np in cm**-3, Vp in km/s, subscript p for proton) 
+    DISPLAY_TYPE: time_series
+    DEPEND_0: Epoch
     LABLAXIS: Flow pressure
-</code></pre><h3 id="Plot-the-data"><a class="docs-heading-anchor" href="#Plot-the-data">Plot the data</a><a id="Plot-the-data-1"></a><a class="docs-heading-anchor-permalink" href="#Plot-the-data" title="Permalink"></a></h3><pre><code class="language- hljs">tplot([da])</code></pre><h2 id="Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)"><a class="docs-heading-anchor" href="#Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)">Get data using Heliophysics Application Programmer&#39;s Interface (HAPI)</a><a id="Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)-1"></a><a class="docs-heading-anchor-permalink" href="#Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)" title="Permalink"></a></h2><pre><code class="language-julia hljs">using HAPIClient: get_data
+    BIN_LOCATION: 0.0
+</code></pre><h3 id="Plot-the-data"><a class="docs-heading-anchor" href="#Plot-the-data">Plot the data</a><a id="Plot-the-data-1"></a><a class="docs-heading-anchor-permalink" href="#Plot-the-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">tplot([da])</code></pre><img src="b1a8f562.png" alt="Example block output"/><h2 id="Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)"><a class="docs-heading-anchor" href="#Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)">Get data using Heliophysics Application Programmer&#39;s Interface (HAPI)</a><a id="Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)-1"></a><a class="docs-heading-anchor-permalink" href="#Get-data-using-Heliophysics-Application-Programmer&#39;s-Interface-(HAPI)" title="Permalink"></a></h2><pre><code class="language-julia hljs">using HAPIClient: get_data
 
 da = get_data(&quot;CDAWeb/AC_H0_MFI/Magnitude,BGSEc&quot;, &quot;2001-1-2&quot;, &quot;2001-1-2T12&quot;)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">2-element Vector{HAPIClient.HAPIVariable{T, 1, A, Vector{Dates.DateTime}} where {T, A&lt;:AbstractVector{T}}}:
  <span class="sgr38_5" style="color:#00afaf">Magnitude</span> [Time Range: 2001-01-02T00:00:15 to 2001-01-02T11:59:58, Units: nT, Size: (2700,)]
  <span class="sgr38_5" style="color:#00afaf">BGSEc</span> [Time Range: 2001-01-02T00:00:15 to 2001-01-02T11:59:58, Units: nT, Size: (2700,)]</code></pre><h3 id="Plot-the-data-2"><a class="docs-heading-anchor" href="#Plot-the-data-2">Plot the data</a><a class="docs-heading-anchor-permalink" href="#Plot-the-data-2" title="Permalink"></a></h3><pre><code class="language- hljs">using SPEDAS
 
-tplot(da)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../">« Home</a><a class="docs-footer-nextpage" href="../outliers/">Remove spikes from signal »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.2 on <span class="colophon-date" title="Saturday 26 April 2025 16:01">Saturday 26 April 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+tplot(da)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../">« Home</a><a class="docs-footer-nextpage" href="../outliers/">Remove spikes from signal »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.2 on <span class="colophon-date" title="Monday 28 April 2025 04:18">Monday 28 April 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
