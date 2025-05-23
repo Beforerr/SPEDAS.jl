@@ -1,4 +1,6 @@
-# Validation with IRBEM and PySPEDAS
+# Validate Coordinate Transformations with IRBEM and PySPEDAS
+
+<!-- TODO: gse2gsm -->
 
 See [Coordinate Systems](../explanations/coords.md) for more information.
 

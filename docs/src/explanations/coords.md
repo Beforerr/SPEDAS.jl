@@ -13,20 +13,43 @@ Depth = 2:3
 rotate
 ```
 
+A comprehensive description of the transformations can be found in [hapgoodSpacePhysicsCoordinate1992](@citet)
+
 ## Standard Coordinate Systems
 
 * GSE (Geocentric Solar Ecliptic)
 * GSM (Geocentric Solar Magnetic)
-* GEI (Geocentric Equatorial Inertial)
-* SM (Solar Magnetic)
+
+Systems based on the Earth's rotation axis
+
 * GEO (Geographic)
+* GEI (Geocentric Equatorial Inertial)
 * J2000
+
+Systems based on the dipole axis of the Earth's magnetic field
+
+* SM (Solar Magnetic)
+* MAG (Geomagnetic)
 
 More information can be found in the the following links
 
 - [https://stereo-ssc.nascom.nasa.gov/coordinates_explanation.shtml](https://stereo-ssc.nascom.nasa.gov/coordinates_explanation.shtml)
+- [Geocentric systems](https://www.mssl.ucl.ac.uk/grid/iau/extra/local_copy/SP_coords/geo_sys.htm]
 
-`SPEDAS.jl` implements native Julia functions for Geographic (GEO) to Geocentric Equatorial Inertial (GEI) coordinate transformations and vice versa. 
+### Coordinate transformations between geocentric systems
+
+```@docs; canonical=false
+cotrans
+```
+
+References:
+- [Coordinate transformations between geocentric systems](https://www.mssl.ucl.ac.uk/grid/iau/extra/local_copy/SP_coords/geo_tran.htm)
+
+`SPEDAS.jl` implements native Julia functions
+
+1. [`geo2gei`](@ref) and [`gei2geo`](@ref): Geographic (GEO) to Geocentric Equatorial Inertial (GEI) coordinate transformations and vice versa. 
+2. [`gse2gsm`](@ref) and [`gsm2gse`](@ref): Geocentric Solar Ecliptic (GSE) to Geocentric Solar Magnetic (GSM) coordinate transformations and vice versa.
+
 For other coordinate systems, including magnetic coordinate calculations, we leverage [IRBEM-LIB](https://prbem.github.io/IRBEM/) through its Julia interface [IRBEM.jl](https://github.com/Beforerr/IRBEM.jl).
 
 ```@example coords
@@ -87,3 +110,4 @@ See also: [Comparison with PySPEDAS](../validation/pyspedas.md#minimum-variance-
 - [PySPEDAS](https://pyspedas.readthedocs.io/en/latest/coords.html)
 - [geopack](https://github.com/tsssss/geopack): Python version of geopack and Tsyganenko models
 - [geospacelab](https://github.com/JouleCai/geospacelab): A python-based library to collect, manage, and visualize geospace data (e.g. OMNI, geomagnetic indices, EISCAT, DMSP, SWARM, TEC, AMPERE, etc.).
+- [SPEDAS Cotrans](https://spedas.org/wiki/index.php?title=Cotrans)
