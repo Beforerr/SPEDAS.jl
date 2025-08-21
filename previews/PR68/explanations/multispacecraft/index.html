@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Multi-spacecraft analysis methods · SPEDAS.jl</title><meta name="title" content="Multi-spacecraft analysis methods · SPEDAS.jl"/><meta property="og:title" content="Multi-spacecraft analysis methods · SPEDAS.jl"/><meta property="twitter:title" content="Multi-spacecraft analysis methods · SPEDAS.jl"/><meta name="description" content="Documentation for SPEDAS.jl."/><meta property="og:description" content="Documentation for SPEDAS.jl."/><meta property="twitter:description" content="Documentation for SPEDAS.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body>
+<!-- NAVBAR START -->
+<style>
+    html {
+        scroll-padding-top: calc(55px + 1rem);
+    }
+
+    /* Documenter css tweaks */
+    .docs-sidebar {
+        margin-top: 3.75rem;
+    }
+
+    #documenter {
+        margin-top: 3.75rem;
+    }
+
+    .docs-version-selector {
+        margin-bottom: 60px !important;
+    }
+
+    @media screen and (max-width: 1056px) {
+        .docs-version-selector {
+            margin-bottom: 60px !important;
+        }
+
+        .docs-sidebar {
+            margin-top: 0 !important;
+        }
+    }
+    /* Documenter css tweaks ends here */
+
+    :root {
+        --heading-color: white;
+        --item-color: rgb(165, 165, 165);
+        --primary-bg: #f8f9fa;  /* Light gray to match Quarto's default navbar */
+        --navbar-text: #212529;  /* Dark text color for better contrast */
+        --hover-color: #e9ecef;  /* Slightly darker gray for hover state */
+        --deprecated-bg: #ff4d4d;
+        --deprecated-text: white;
+    }
+
+    .ext-navigation {
+        position: fixed;
+        height: 3.75rem;
+        top: 0;
+        width: 100%;
+        background-color: var(--primary-bg);
+        color: var(--navbar-text);
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 0 1.0625rem;
+        transition: transform 0.3s;
+    }
+
+    .ext-navbar-logo {
+        margin-left: 0.625rem;
+    }
+
+    .ext-nav-links {
+        display: flex;
+        align-items: center;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        flex-grow: 1;
+    }
+
+    .ext-nav-links li {
+        margin-left: 1rem !important;
+    }
+
+    .ext-nav-link {
+        color: var(--navbar-text) !important;
+        text-decoration: none;
+        font-size: 1.0625rem !important;
+        transition: color 0.2s ease;
+        cursor: pointer;
+    }
+
+    .ext-nav-link:hover,
+    .ext-navbar-item-single a:hover {
+        color: var(--hover-color) !important;
+        text-decoration: none !important;
+    }
+    
+    .ext-navigation a {
+        text-decoration: none !important;
+    }
+
+    .ext-navbar-item-single a {
+        color: var(--navbar-text) !important;
+    }
+
+    .ext-menu-toggle {
+        display: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    .ext-dropdown {
+        display: none;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        padding: 1.875rem;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        background-color: var(--primary-bg);
+        line-height: 1.875rem;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        transform: translateY(-0.625rem);
+    }
+
+    #library-handler::after {
+        content: "▼";
+        font-size: 0.6875rem;
+        margin-left: 0.3125rem;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #library-handler.open::after {
+        content: "▲";
+    }
+
+    .ext-dropdown.show {
+        display: grid;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .ext-dropdown ul {
+        height: auto;
+        width: 12.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .ext-dropdown ul li {
+        text-align: left;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-sub-item {
+        list-style: none;
+    }
+
+    .ext-dropdown ul a li {
+        color: var(--item-color);
+        width: 15.625rem;
+        border-radius: 3px;
+        padding: 0.125rem 0.625rem;
+        transition: background-color 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .ext-dropdown ul a li:hover {
+        background-color: rgba(107, 107, 107, 0.5);
+    }
+
+    .ext-dropdown-item-heading {
+        /* color: var(--heading-color); */
+        text-align: center;
+    }
+
+    .deprecated-badge {
+        background-color: var(--deprecated-bg);
+        color: var(--deprecated-text);
+        font-size: 0.75rem;
+        padding: 0.125rem 0.375rem;
+        border-radius: 3px;
+        margin-left: 0.5rem;
+        line-height: 1;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 966px) {
+        .ext-dropdown {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ext-nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background-color: var(--primary-bg);
+            position: absolute;
+            top: 3.75rem;
+            left: 0;
+            padding: 0.625rem 0;
+            height: auto;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgb(141, 141, 141) grey;
+        }
+
+        .ext-nav-links.show {
+            display: flex;
+        }
+
+        .ext-nav-links li {
+            margin: 0.625rem 0;
+            text-align: center;
+        }
+
+        .ext-menu-toggle {
+            display: block;
+            margin-left: auto;
+        }
+
+        .ext-navigation.hide {
+            transform: translateY(-3.75rem);
+        }
+
+        .ext-dropdown {
+            place-content: center;
+            text-align: center;
+            grid-template-columns: 1fr;
+            line-height: 1.25rem;
+            padding: 0.625rem;
+        }
+
+        .ext-dropdown ul {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0.3125rem;
+        }
+
+        .ext-dropdown ul li {
+            text-align: center;
+            /* justify-content: center; */
+        }
+
+        .ext-dropdown ul a li {
+            width: 100%;
+        }
+
+        .ext-dropdown ul a li:hover {
+            background-color: var(--primary-bg);
+            /* color: #fff; */
+        }
+
+        /* Modified scroll bar */
+        .ext-nav-links::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .ext-nav-links::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+        }
+
+        .ext-nav-links::-webkit-scrollbar-thumb {
+            background: rgb(141, 141, 141);
+            border-radius: 3px;
+        }
+
+        .ext-nav-links::-webkit-scrollbar-thumb:hover {
+            background: #9b9b9b;
+        }
+    }
+</style>
+<nav class="ext-navigation">
+    <a href="https://juliaspacephysics.github.io"></a>
+    <a style="color: #212529 !important; font-size: 21.25px !important; margin-left: 10px;" href="https://juliaspacephysics.github.io">JuliaSpacePhysics</a>
+    <ul class="ext-nav-links">
+        <li>
+            <p class="ext-nav-link" id="library-handler">Ecosystem</p>
+            <div class="ext-dropdown" id="ext-dropdown-items">
+                <ul>
+                    <li class="ext-dropdown-item-heading">Core</li>
+                    <a href="https://juliaspacephysics.github.io/SPEDAS.jl"><li>SPEDAS.jl</li></a>
+                    <a href="https://juliaspacephysics.github.io/SpaceDataModel.jl"><li>SpaceDataModel.jl</li></a>
+                    <a href="https://juliaspacephysics.github.io/GeoCotrans.jl"><li>GeoCotrans.jl</li></a>
+                    <a href="https://juliaspacephysics.github.io/GeoAACGM.jl"><li>GeoAACGM.jl</li></a>
+                </ul>
+                <ul>
+                    <li class="ext-dropdown-item-heading">Data</li>
+                    <a href="https://github.com/SciQLop/Speasy.jl"><li>Speasy.jl</li></a>
+                    <a href="https://github.com/JuliaSpacePhysics/HAPIClient.jl"><li>HAPIClient.jl</li></a>
+                    <a href="https://juliaspacephysics.github.io/Madrigal.jl"><li>Madrigal.jl</li></a>
+                    <a href="https://github.com/JuliaSpacePhysics/PySPEDAS.jl"><li>PySPEDAS.jl</li></a>
+                </ul>
+                <ul>
+                    <li class="ext-dropdown-item-heading">Plasma Physics</li>
+                    <a href="https://juliaplasma.github.io/PlasmaFormulary.jl"><li>JuliaPlasma/PlasmaFormulary.jl</li></a>
+                    <a href="https://juliaplasma.github.io/ChargedParticles.jl"><li>JuliaPlasma/ChargedParticles.jl</li></a>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <a href="https://github.com/JuliaSpacePhysics/JuliaSpacePhysics.jl">
+        <svg width="32px" height="32px" viewBox="-8.2 -8.2 36.40 36.40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <title>github [#142]</title>
+                <desc>Created with Sketch.</desc>
+                <defs></defs>
+                <g id="Page-1" stroke-width="0.0002" fill="none" fill-rule="evenodd">
+                    <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -7559.000000)" fill="#ffffff">
+                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                            <path
+                                d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399"
+                                id="github-[#142]">
+                            </path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </a>
+    <span class="ext-menu-toggle">&#9776;</span>
+</nav>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.querySelector(".ext-menu-toggle");
+        const navLinks = document.querySelector(".ext-nav-links");
+        const nav = document.querySelector(".ext-navigation");
+        const navigationHandler = document.getElementById("library-handler");
+        const navigationItemsContainer =
+            document.getElementById("ext-dropdown-items");
+        let lastScrollY = window.scrollY;
+
+        function setAppropriateHeight() {
+            if (window.innerWidth <= 768) {
+                const viewportHeight = window.innerHeight;
+                const navHeight = nav.offsetHeight;
+                navLinks.style.maxHeight = `${viewportHeight - navHeight}px`;
+                navLinks.style.overflowY = "auto";
+            } else {
+                navLinks.style.maxHeight = "";
+                navLinks.style.overflowY = "";
+            }
+        }
+
+        // Toggle main menu for mobile
+        menuToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("show");
+            if (navLinks.classList.contains("show")) {
+                setAppropriateHeight();
+                // Ensure the dropdown is hidden when menu is first opened
+                navigationItemsContainer.style.display = "none";
+                navigationItemsContainer.classList.remove("show");
+            }
+        });
+
+        // Close menus if clicked outside
+        document.addEventListener("click", (event) => {
+            if (
+                !navLinks.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+                navLinks.classList.remove("show");
+                navigationItemsContainer.classList.remove("show");
+                navigationHandler.classList.remove("open");
+            }
+        });
+
+        // Hide navigation bar on scroll down in mobile view
+        window.addEventListener("scroll", () => {
+            if (window.innerWidth <= 768) {
+                nav.classList.toggle("hide", window.scrollY > lastScrollY);
+                lastScrollY = window.scrollY;
+            }
+        });
+
+        // Library API script
+        navigationHandler.addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent default action of the link
+            if (navigationItemsContainer.classList.contains("show")) {
+                navigationItemsContainer.classList.remove("show");
+                navigationHandler.classList.remove("open");
+                setTimeout(() => {
+                    navigationItemsContainer.style.display = "none";
+                }, 500); // Match the timeout to the CSS transition duration
+            } else {
+                navigationItemsContainer.style.display = "grid";
+                navigationHandler.classList.add("open");
+                setTimeout(() => {
+                    navigationItemsContainer.classList.add("show");
+                }, 10); // Delay to ensure the display change takes effect before adding class
+            }
+            setAppropriateHeight(); // Recalculate height when dropdown changes
+        });
+
+        // Handle window resize
+        window.addEventListener("resize", setAppropriateHeight);
+
+        // Initial setup
+        setAppropriateHeight();
+    });
+</script>
+<!-- NAVBAR END -->
+
+<div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">SPEDAS.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../tutorials/getting-started/">Quickstart</a></li><li><a class="tocitem" href="../../tutorials/mag_model/">Radiation Belt Modeling</a></li><li><a class="tocitem" href="../../tutorials/outliers/">Remove spikes from signal</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../../examples/">Overview</a></li><li><a class="tocitem" href="../../examples/speasy/">Complex requests and flexible layout</a></li><li><a class="tocitem" href="../../examples/tplot/"><code>tplot</code> and <code>tplot_panel</code></a></li><li><a class="tocitem" href="../../examples/interactive/">Basic interactive tplot</a></li><li><a class="tocitem" href="../../examples/interactive_speasy/">Interactive tplot with Speasy</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../data/">Data Formats and Retrieval</a></li><li><a class="tocitem" href="../data_model/">Data Model and Project Module</a></li><li><a class="tocitem" href="../tplot/">Tplot</a></li><li><a class="tocitem" href="../coords/">Coordinate Systems and Transformations</a></li><li class="is-active"><a class="tocitem" href>Multi-spacecraft analysis methods</a><ul class="internal"><li><a class="tocitem" href="#Reciprocal-vectors"><span>Reciprocal vectors</span></a></li><li><a class="tocitem" href="#Multi-spacecraft-timing"><span>Multi-spacecraft timing</span></a></li></ul></li><li><a class="tocitem" href="../timeseries/">Time Series Utilities</a></li><li><a class="tocitem" href="../resampling/">Time Series Resampling Methods</a></li><li><a class="tocitem" href="../waves/">Wave</a></li><li><a class="tocitem" href="../analysis/">Analysis Tools</a></li></ul></li><li><span class="tocitem">Observatories</span><ul><li><a class="tocitem" href="../../observatory/">Observatory Modules</a></li><li><a class="tocitem" href="../../observatory/juno/">Juno</a></li><li><a class="tocitem" href="../../observatory/mms/">Magnetospheric Multiscale (MMS)</a></li><li><a class="tocitem" href="../../observatory/psp/">Parker Solar Probe (PSP)</a></li><li><a class="tocitem" href="../../observatory/themis/">Time History of Events and Macroscale Interactions during Substorms (THEMIS)</a></li></ul></li><li><span class="tocitem">Validation</span><ul><li><a class="tocitem" href="../../validation/coords/">Compare Coordinate Transformations with IRBEM and PySPEDAS</a></li><li><a class="tocitem" href="../../validation/pyspedas/">Validation with PySPEDAS</a></li></ul></li><li><a class="tocitem" href="../../api/">API</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Explanation</a></li><li class="is-active"><a href>Multi-spacecraft analysis methods</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Multi-spacecraft analysis methods</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/main/docs/src/explanations/multispacecraft.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Multi-spacecraft-analysis-methods"><a class="docs-heading-anchor" href="#Multi-spacecraft-analysis-methods">Multi-spacecraft analysis methods</a><a id="Multi-spacecraft-analysis-methods-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-spacecraft-analysis-methods" title="Permalink"></a></h1><h2 id="Reciprocal-vectors"><a class="docs-heading-anchor" href="#Reciprocal-vectors">Reciprocal vectors</a><a id="Reciprocal-vectors-1"></a><a class="docs-heading-anchor-permalink" href="#Reciprocal-vectors" title="Permalink"></a></h2><p><a href="#paschmannMultispacecraftAnalysisMethods2008">Paschmann and Daly [2]</a>, Chapter 4, <a href="#paschmannAnalysisMethodsMultispacecraft2000">Paschmann and Daly [3]</a>, Chapter 14, </p><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="SPEDAS.position_tensor" href="#SPEDAS.position_tensor"><code>SPEDAS.position_tensor</code></a> — <span class="docstring-category">Function</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><p class="math-container">\[𝐑 = ∑_α (𝐫_α-𝐫_b) (𝐫_α-𝐫_b)&#39; = ∑_α 𝐫_α 𝐫_α&#39;-𝐫_b 𝐫_b&#39;\]</p><p>with <span>$𝐫_b = ∑_α 𝐫_α / N$</span> and <code>N</code> is the number of positions.</p><p><strong>References</strong></p><ul><li><a href="#paschmannMultispacecraftAnalysisMethods2008">Paschmann and Daly [2]</a> Paschmann &amp; Daly, 2008. Section 4.7</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/tetrahedron.jl#L1-L10">source</a></section></article><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="SPEDAS.reciprocal_vector" href="#SPEDAS.reciprocal_vector"><code>SPEDAS.reciprocal_vector</code></a> — <span class="docstring-category">Function</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><pre><code class="language-julia hljs">reciprocal_vector(r_βα, r_βγ, r_βλ)</code></pre><p>Compute the reciprocal vector <span>$𝒌_α$</span> for a vertex of a tetrahedron given the relative position vectors.</p><p class="math-container">\[𝒌_α = \frac{𝐫_{βγ} × 𝐫_{βλ}}{𝐫_{βα} ⋅ (𝐫_{βγ} × 𝐫_{βλ})}\]</p><p>where <span>$𝐫_{αβ} = r_β - r_α$</span> are relative position vectors.</p><p><strong>References</strong></p><ul><li>Multi-spacecraft analysis methods revisited : 4.3 Properties of reciprocal vectors</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/reciprocal_vector.jl#L15-L28">source</a></section><section><div><pre><code class="language-julia hljs">reciprocal_vector(rα, rβ, rγ, rλ)</code></pre><p>Compute the reciprocal vector <span>$𝒌_α$</span> for a vertex of a tetrahedron given the position vectors of all vertices.</p><p>The vertices (α, β, γ, λ) must form a cyclic permutation of (1, 2, 3, 4).</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/reciprocal_vector.jl#L34-L40">source</a></section><section><div><pre><code class="language-julia hljs">reciprocal_vector(rα, r0s::AbstractVector{&lt;:AbstractVector})</code></pre><p>Generalised reciprocal vector for N != 4</p><p class="math-container">\[𝐪_α = 𝐑^{-1} 𝐫_α\]</p><p>See also: <a href="#SPEDAS.reciprocal_vector"><code>reciprocal_vector</code></a>, <a href="#SPEDAS.position_tensor"><code>position_tensor</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/reciprocal_vector.jl#L49-L58">source</a></section></article><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="SPEDAS.reciprocal_vectors" href="#SPEDAS.reciprocal_vectors"><code>SPEDAS.reciprocal_vectors</code></a> — <span class="docstring-category">Function</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><p>Compute the set of reciprocal vectors {<span>$𝒌_α$</span>}, which is also called the reciprocal base of the tetrahedron.</p><p>See also: <a href="#SPEDAS.reciprocal_vector"><code>reciprocal_vector</code></a></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/reciprocal_vector.jl#L1-L5">source</a></section></article><h3 id="Estimation-of-spatial-gradients"><a class="docs-heading-anchor" href="#Estimation-of-spatial-gradients">Estimation of spatial gradients</a><a id="Estimation-of-spatial-gradients-1"></a><a class="docs-heading-anchor-permalink" href="#Estimation-of-spatial-gradients" title="Permalink"></a></h3><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="SPEDAS.lingradest" href="#SPEDAS.lingradest"><code>SPEDAS.lingradest</code></a> — <span class="docstring-category">Function</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><pre><code class="language-julia hljs">lingradest(B1, B2, B3, B4, R1, R2, R3, R4)</code></pre><p>Compute spatial derivatives such as grad, div, curl and curvature using reciprocal vector technique (linear interpolation).</p><p><strong>Arguments</strong></p><ul><li><code>B1, B2, B3, B4</code>: 3-element vectors giving magnetic field measurements at each probe</li><li><code>R1, R2, R3, R4</code>: 3-element vectors giving the probe positions</li></ul><p><strong>Returns</strong></p><p>A named tuple containing:   • Rbary: Barycenter position   • Bbc: Magnetic field at the barycenter   • Bmag: Magnetic field magnitude at the barycenter   • LGBx, LGBy, LGBz: Linear gradient estimators for each component   • LD: Linear divergence estimator   • LCB: Linear curl estimator   • curvature: Field‐line curvature vector   • R_c: Field‐line curvature radius</p><p><strong>References</strong></p><p>Based on the method of Chanteur (ISSI, 1998, Ch. 11).</p><ul><li><a href="https://github.com/spedas/bleeding_edge/blob/master/projects/mms/common/curlometer/lingradest.pro">lingradest.pro</a></li><li><a href="https://github.com/spedas/pyspedas/blob/master/pyspedas/analysis/lingradest.py#L5">lingradest.py</a></li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/lingradest.jl#L1-L25">source</a></section><section><div><pre><code class="language-julia hljs">lingradest(B1::MatrixLike, args...)</code></pre><p>Vectorized method for simplified usage. Returns a <code>StructArray</code> containing the results.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/lingradest.jl#L65-L69">source</a></section><section><div><pre><code class="language-julia hljs">lingradest(B1::AbstractDimArray, args...)</code></pre><p>Method for handling dimensional arrays. Takes <code>AbstractDimArray</code> inputs with a time dimension and returns a <code>DimStack</code> containing all computed quantities.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/lingradest.jl#L77-L82">source</a></section><section><div><pre><code class="language-julia hljs">lingradest(
+    Bx1, Bx2, Bx3, Bx4,
+    By1, By2, By3, By4,
+    Bz1, Bz2, Bz3, Bz4,
+    R1, R2, R3, R4
+)</code></pre><p>SPEDAS-argument-compatible version of lingradest.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/lingradest.jl#L93-L102">source</a></section></article><blockquote><p>Since <span>$\tilde{g}$</span> and <span>$\tilde{\boldsymbol{V}}$</span> are linear functions, the calculation of spatial derivatives, such as the gradient of some scalar function or the divergence or curl of a vector function, can be done quite easily. The results are:</p></blockquote><p class="math-container">\[\begin{aligned}
+\nabla g \simeq \nabla \tilde{g} &amp; =\sum_{\alpha=0}^3 \boldsymbol{k}_\alpha g_\alpha \\
+\hat{\boldsymbol{e}} \cdot \nabla g \simeq \hat{\boldsymbol{e}} \cdot \nabla \tilde{g} &amp; =\sum_{\alpha=0}^3\left(\hat{\boldsymbol{e}} \cdot \boldsymbol{k}_\alpha\right) g_\alpha \\
+\nabla \cdot \boldsymbol{V} \simeq \nabla \cdot \tilde{\boldsymbol{V}} &amp; =\sum_{\alpha=0}^3 \boldsymbol{k}_\alpha \cdot \boldsymbol{V}_\alpha \\
+\nabla \times \boldsymbol{V} \simeq \nabla \times \tilde{\boldsymbol{V}} &amp; =\sum_{\alpha=0}^3 \boldsymbol{k}_\alpha \times \boldsymbol{V}_\alpha
+\end{aligned}\]</p><h2 id="Multi-spacecraft-timing"><a class="docs-heading-anchor" href="#Multi-spacecraft-timing">Multi-spacecraft timing</a><a id="Multi-spacecraft-timing-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-spacecraft-timing" title="Permalink"></a></h2><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="SPEDAS.ConstantVelocityApproach" href="#SPEDAS.ConstantVelocityApproach"><code>SPEDAS.ConstantVelocityApproach</code></a> — <span class="docstring-category">Function</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><pre><code class="language-julia hljs">CVA(positions, times)</code></pre><p>Constant Velocity Approach (CVA) for determining boundary normal and velocity. Solve timing equation: <span>$D * m = Δts$</span></p><p>Parameters:</p><ul><li>positions: Positions of 4 spacecraft (4×3 array)</li><li>times: Times of boundary crossing for each spacecraft</li></ul></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/timing.jl#L12-L21">source</a></section><section><div><pre><code class="language-julia hljs">ConstantVelocityApproach(positions, times, durations)</code></pre><p>Given <code>durations</code> of the boundary crossings, calculate the thickness of the boundary</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/JuliaSpacePhysics/SPEDAS.jl/blob/f625ef09f39a15f7828f64a8c153e9d643dc879f/src/multispacecraft/timing.jl#L31-L35">source</a></section></article><div class="citation canonical"><dl><dt>[1]</dt><dd><div id="hapgoodSpacePhysicsCoordinate1992">M. Hapgood. <em>Space Physics Coordinate Transformations: A User Guide</em>. <a href="https://doi.org/10.1016/0032-0633(92)90012-D">Planetary and Space Science <strong>40</strong>, 711–717</a> (1992).</div></dd><dt>[2]</dt><dd><div id="paschmannMultispacecraftAnalysisMethods2008">G. Paschmann and P. W. Daly. <em>Multi-Spacecraft Analysis Methods Revisited</em> (ESA Communications, 2008).</div></dd><dt>[3]</dt><dd><div id="paschmannAnalysisMethodsMultispacecraft2000">G. Paschmann and P. W. Daly. <em>Analysis Methods for Multi-Spacecraft Data</em> (ESA Publications Division, 2000).</div></dd><dt>[4]</dt><dd><div id="samsonCommentsDescriptionsPolarization1980">J. C. Samson and J. V. Olson. <em>Some Comments on the Descriptions of the Polarization States of Waves</em>. <a href="https://doi.org/10.1111/j.1365-246X.1980.tb04308.x">Geophysical Journal International <strong>61</strong>, 115–129</a> (1980).</div></dd><dt>[5]</dt><dd><div id="meansUseThreedimensionalCovariance1972">J. D. Means. <em>Use of the Three-Dimensional Covariance Matrix in Analyzing the Polarization Properties of Plane Waves</em>. <a href="https://doi.org/10.1029/JA077i028p05551">Journal of Geophysical Research (1896-1977) <strong>77</strong>, 5551–5559</a> (1972).</div></dd></dl></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../coords/">« Coordinate Systems and Transformations</a><a class="docs-footer-nextpage" href="../timeseries/">Time Series Utilities »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.13.0 on <span class="colophon-date" title="Saturday 28 June 2025 15:36">Saturday 28 June 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
